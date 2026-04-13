@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Field Service Management Software for Electricians | Simpro</title>
+  <meta name="description" content="Simpro is the AI-first operating platform trusted by electrical businesses to simplify workflows and turn complexity into profit." />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sp-primary: #0047BB;
+      --sp-secondary: #F5A800;
+      --sp-dark: #0C1F45;
+      --sp-downriver: #07102A;
+      --sp-light: #F5F6FA;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #333;
+      margin: 0;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+    }
+
+    /* ── Navbar ── */
+    #main-nav {
+      background-color: var(--sp-dark);
+      padding: 12px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-brand img { display: block; }
+
+    .navbar-partner-divider {
+      border-left: 1px solid rgba(255,255,255,0.25);
+      padding-left: 16px;
+      margin-left: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .partner-logo {
+      max-height: 36px;
+      width: auto;
+    }
+
+    .partner-name-text {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.82rem;
+      font-weight: 600;
+      line-height: 1.3;
+      max-width: 160px;
+    }
+
+    .btn-nav-cta {
+      background-color: var(--sp-secondary);
+      border: none;
+      color: #000;
+      font-weight: 700;
+      padding: 9px 22px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-nav-cta:hover { background-color: #d99200; color: #000; }
+
+    /* ── Hero ── */
+    header {
+      background: linear-gradient(145deg, #071630 0%, #0C2A5A 45%, #0a1f45 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 64px 0 0;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      top: -40%; right: -10%;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,71,187,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+      color: var(--sp-secondary);
+    }
+
+    .hero-lead {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.88);
+      margin-top: 10px;
+    }
+
+    .hero-body {
+      font-size: 0.93rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 14px;
+      line-height: 1.65;
+    }
+
+    /* Stats */
+    .stats-row {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .stat-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .stat-value {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--sp-secondary);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.75);
+      text-align: center;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 44px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Form card */
+    .form-card {
+      background: #0C1F45;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 32px 28px;
+      margin-bottom: -48px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-card-title {
+      color: #fff;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .form-card .form-label {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.82rem;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .form-card .form-control,
+    .form-card .form-select {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #fff;
+      border-radius: 4px;
+      padding: 10px 14px;
+    }
+
+    .form-card .form-control::placeholder { color: rgba(255,255,255,0.35); }
+
+    .form-card .form-control:focus,
+    .form-card .form-select:focus {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--sp-secondary);
+      box-shadow: 0 0 0 3px rgba(245,168,0,0.2);
+      color: #fff;
+      outline: none;
+    }
+
+    .form-card .form-select option { background: #0C1F45; color: #fff; }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--sp-secondary);
+      border: none;
+      color: #000;
+      font-weight: 700;
+      padding: 13px;
+      border-radius: 4px;
+      font-size: 1rem;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { background-color: #d99200; }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .privacy-note {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.72rem;
+      text-align: center;
+      margin-top: 14px;
+    }
+    .privacy-note a { color: rgba(255,255,255,0.5); }
+
+    .form-error {
+      background: rgba(220,53,69,0.15);
+      border: 1px solid rgba(220,53,69,0.4);
+      color: #ff6b7a;
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 32px 8px;
+    }
+    .form-success .success-icon { font-size: 2.8rem; margin-bottom: 14px; }
+    .form-success h3 { color: #fff; font-size: 1.4rem; }
+    .form-success p { color: rgba(255,255,255,0.65); font-size: 0.9rem; }
+
+    /* ── Intro section ── */
+    #intro {
+      background: #fff;
+      padding: 80px 0 28px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--sp-primary);
+      margin-bottom: 10px;
+    }
+
+    #intro h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); }
+    #intro p { color: #666; font-size: 0.95rem; }
+
+    /* ── Features ── */
+    #features {
+      background: #fff;
+      padding: 20px 0 72px;
+    }
+
+    /* Desktop feature tabs */
+    .feature-tab-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #555;
+      padding: 18px 0 6px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .feature-tab-btn.active, .feature-tab-btn:hover { color: var(--sp-primary); }
+    .feature-tab-btn.active { border-bottom-color: var(--sp-primary); }
+
+    .feature-row { border-top: 1px solid #efefef; }
+
+    .feature-desc {
+      color: #777;
+      font-size: 0.9rem;
+      padding-bottom: 14px;
+    }
+
+    /* Mobile pills */
+    .nav-pills .nav-link {
+      color: #555 !important;
+      background: #f0f0f0;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      white-space: nowrap;
+    }
+    .nav-pills .nav-link.active {
+      background-color: var(--sp-primary) !important;
+      color: #fff !important;
+    }
+
+    /* ── Industries ── */
+    #industries {
+      background: var(--sp-light);
+      padding: 64px 0;
+      text-align: center;
+    }
+
+    .industry-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 20px 12px;
+      border: 1px solid #e5e5e5;
+      height: 100%;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .industry-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .industry-card p { margin: 8px 0 0; font-size: 0.88rem; font-weight: 600; color: #333; }
+    .industry-card.highlight { border-color: var(--sp-secondary); background: #fff9ec; }
+    .industry-card.highlight p { color: var(--sp-primary); }
+
+    /* ── Video ── */
+    #video-section {
+      background: var(--sp-dark);
+      padding: 64px 0;
+    }
+
+    /* ── Integrations ── */
+    #integrations {
+      background: var(--sp-dark);
+      padding: 28px 0;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .integrations-label {
+      color: rgba(255,255,255,0.55);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .integrations-more {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    /* ── CTA ── */
+    #cta {
+      background: var(--sp-light);
+      padding: 88px 0;
+      text-align: center;
+    }
+
+    #cta h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: #111;
+    }
+
+    .btn-primary-cta {
+      display: inline-block;
+      background-color: var(--sp-primary);
+      color: #fff;
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 4px;
+      font-size: 1rem;
+      text-decoration: none;
+      margin-top: 24px;
+      transition: background 0.2s;
+    }
+    .btn-primary-cta:hover { background-color: #003399; color: #fff; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--sp-downriver);
+      padding: 24px 0;
+    }
+    footer .footer-link {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+    footer .footer-link:hover { color: rgba(255,255,255,0.8); }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+      .form-card { margin-bottom: 0; margin-top: 48px; }
+      .stats-row { justify-content: flex-start; }
+    }
+
+    @media (max-width: 576px) {
+      header { padding: 48px 0 0; }
+      .form-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="container-xl">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <a href="https://www.simprogroup.com" class="navbar-brand" style="padding:0; margin:0;">
+          <img
+            src="https://www.simprogroup.com/user/themes/simpro/images/simpro-wordmark-white.svg"
+            alt="Simpro"
+            width="140"
+            height="29"
+          />
+        </a>
+        <!--
+          PARTNER LOGO — Replace the src below with your Master Electricians Australia logo URL.
+          If the image fails to load, the text fallback will show automatically.
+        -->
+        <div class="navbar-partner-divider d-none d-sm-flex">
+          <img
+            src="YOUR_MEA_LOGO_URL_HERE"
+            alt="Master Electricians Australia"
+            class="partner-logo"
+            id="partner-logo-img"
+            onerror="this.style.display='none'; document.getElementById('partner-logo-text').style.display='block';"
+          />
+          <span class="partner-name-text" id="partner-logo-text" style="display:none;">
+            Master Electricians<br>Australia
+          </span>
+        </div>
+      </div>
+      <a href="#signup-form" class="btn-nav-cta">Book a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="container-xl pb-0">
+    <div class="row align-items-lg-center">
+
+      <!-- Left: copy -->
+      <div class="col-lg-7 col-xl-6 pe-xl-5 mb-5 mb-lg-0">
+
+        <!-- Mobile partner logo -->
+        <div class="d-sm-none mb-4">
+          <img
+            src="YOUR_MEA_LOGO_URL_HERE"
+            alt="Master Electricians Australia"
+            style="max-height:44px; width:auto;"
+            onerror="this.style.display='none';"
+          />
+        </div>
+
+        <h1>Built for the way<br>electricians work.</h1>
+        <p class="hero-lead">The AI-first operating platform for electrical businesses.</p>
+        <p class="hero-body">
+          Simpro is trusted by 250,000 trades professionals to simplify workflows
+          and turn complexity into profit. With advanced automation across scheduling,
+          workforce management, and asset tracking, we eliminate inefficiency, save time,
+          and help electrical businesses scale stronger.
+        </p>
+
+        <img
+          src="https://www.simprogroup.com/user/themes/simpro/images/online-reviews-single-line.svg"
+          alt="5-star ratings on Google, Capterra, G2, Software Advice and GetApp"
+          class="img-fluid mt-3"
+          style="max-width:420px; display:block;"
+        />
+
+        <!-- Stats -->
+        <div class="stats-row pb-5">
+          <div class="stat-item">
+            <div class="stat-group">
+              <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/up-arrow-yellow.svg" alt="" width="15" height="22" />
+              <span class="stat-value">25%</span>
+            </div>
+            <span class="stat-label">Increase in Revenue</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-group">
+              <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/lightning-bolt-yellow.svg" alt="" width="18" height="22" />
+              <span class="stat-value">10x</span>
+            </div>
+            <span class="stat-label">Faster Job Estimates</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-group">
+              <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/up-arrow-yellow.svg" alt="" width="15" height="22" />
+              <span class="stat-value">30%</span>
+            </div>
+            <span class="stat-label">Increase in Productivity</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: form -->
+      <div class="col-lg-5 col-xl-6 ps-xl-4 pb-0">
+        <a id="signup-form"></a>
+        <div class="form-card">
+          <h2 class="form-card-title">Book a Demo</h2>
+
+          <div id="form-container">
+            <form id="lead-form" novalidate>
+              <div class="mb-3">
+                <label class="form-label" for="fullName">Full Name *</label>
+                <input type="text" class="form-control" id="fullName" name="name" placeholder="Jane Smith" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">Email Address *</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="jane@yourbusiness.com.au" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="phone">Phone Number *</label>
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="04XX XXX XXX" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="businessName">Business Name *</label>
+                <input type="text" class="form-control" id="businessName" name="businessName" placeholder="Smith Electrical Pty Ltd" required />
+              </div>
+              <div class="mb-2">
+                <label class="form-label" for="employees">Number of Employees *</label>
+                <select class="form-select" id="employees" name="employees" required>
+                  <option value="" disabled selected>Select team size</option>
+                  <option value="1-5">1–5 employees</option>
+                  <option value="6-20">6–20 employees</option>
+                  <option value="21-50">21–50 employees</option>
+                  <option value="51-100">51–100 employees</option>
+                  <option value="100+">100+ employees</option>
+                </select>
+              </div>
+
+              <div class="form-error" id="form-error">
+                Something went wrong. Please try again or call us directly.
+              </div>
+
+              <button type="submit" class="btn-submit" id="submit-btn">
+                Book Your Demo &rarr;
+              </button>
+            </form>
+          </div>
+
+          <!-- Success message shown after submit -->
+          <div class="form-success" id="form-success">
+            <div class="success-icon">✅</div>
+            <h3>Thanks! We'll be in touch soon.</h3>
+            <p>One of our team will reach out within one business day.</p>
+          </div>
+
+          <p class="privacy-note">
+            You may unsubscribe at any time.
+            <a href="https://www.simprogroup.com/legal/personal-data-protection-policy" target="_blank" rel="noopener">Privacy Policy</a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INTRO
+════════════════════════════════════════════════════════════ -->
+<section id="intro">
+  <div class="container-xl">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-xl-7">
+        <p class="eyebrow">Total business management</p>
+        <h2>More time. More insights. More control.</h2>
+        <p>
+          Whether you're running residential callouts, commercial installs, or long-term
+          maintenance contracts, Simpro has the tools to keep your electrical business
+          running at full capacity.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FEATURES — DESKTOP TABS
+════════════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="container-xl">
+
+    <!-- Desktop (lg+) -->
+    <div class="d-none d-lg-block">
+      <div class="row">
+        <!-- Tab nav -->
+        <div class="col-lg-6 col-xl-7 pe-lg-5" id="desktop-tab-nav">
+          <div class="feature-row">
+            <button class="feature-tab-btn active" data-target="tab-jobs">Win more jobs</button>
+            <p class="feature-desc">Quote on the spot. Close the deal before anyone else shows up.</p>
+          </div>
+          <div class="feature-row">
+            <button class="feature-tab-btn" data-target="tab-time">Save time</button>
+            <p class="feature-desc">Stop drowning in paperwork. Automate what slows you down.</p>
+          </div>
+          <div class="feature-row">
+            <button class="feature-tab-btn" data-target="tab-inventory">Track inventory</button>
+            <p class="feature-desc">Know what's on the truck and what's not. No surprises, no guesswork.</p>
+          </div>
+          <div class="feature-row">
+            <button class="feature-tab-btn" data-target="tab-cashflow">Improve cash flow</button>
+            <p class="feature-desc">Invoice faster. Get paid quicker. See your margins in real time.</p>
+          </div>
+          <div class="feature-row">
+            <button class="feature-tab-btn" data-target="tab-people">Manage your people</button>
+            <p class="feature-desc">Your crew, your contractors, your customers — all in one place.</p>
+          </div>
+        </div>
+        <!-- Tab images -->
+        <div class="col-lg-6 col-xl-5 align-self-center">
+          <div id="tab-jobs" class="feature-tab-pane">
+            <img src="https://www.simprogroup.com/user/themes/simpro/images/features/win-more-jobs_v2-min.png" alt="Win more jobs with Simpro" class="img-fluid rounded" />
+          </div>
+          <div id="tab-time" class="feature-tab-pane" style="display:none;">
+            <img src="https://www.simprogroup.com/user/themes/simpro/images/features/save-time_v2-min.png" alt="Save time with Simpro" class="img-fluid rounded" />
+          </div>
+          <div id="tab-inventory" class="feature-tab-pane" style="display:none;">
+            <img src="https://www.simprogroup.com/user/themes/simpro/images/features/track-inventory_v2-min.png" alt="Track inventory with Simpro" class="img-fluid rounded" />
+          </div>
+          <div id="tab-cashflow" class="feature-tab-pane" style="display:none;">
+            <img src="https://www.simprogroup.com/user/themes/simpro/images/features/improve-cashflow_v2-min.png" alt="Improve cash flow with Simpro" class="img-fluid rounded" />
+          </div>
+          <div id="tab-people" class="feature-tab-pane" style="display:none;">
+            <img src="https://www.simprogroup.com/user/themes/simpro/images/features/manage-your-people_v2-min.png" alt="Manage your people with Simpro" class="img-fluid rounded" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile (< lg) -->
+    <div class="d-lg-none">
+      <ul class="nav nav-pills flex-nowrap overflow-auto gap-2 pb-2" id="mobilePills" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#mob-jobs" type="button">Win more jobs</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#mob-time" type="button">Save time</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#mob-inventory" type="button">Track inventory</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#mob-cashflow" type="button">Improve cash flow</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#mob-people" type="button">Manage your people</button></li>
+      </ul>
+      <div class="tab-content mt-4">
+        <div class="tab-pane fade show active" id="mob-jobs">
+          <h5 style="font-family:'Oswald',sans-serif;">Win more jobs</h5>
+          <p class="feature-desc">Quote on the spot. Close the deal before anyone else shows up.</p>
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/features/win-more-jobs_v2-min.png" alt="Win more jobs" class="img-fluid rounded d-block mx-auto" style="max-width:420px;" />
+        </div>
+        <div class="tab-pane fade" id="mob-time">
+          <h5 style="font-family:'Oswald',sans-serif;">Save time</h5>
+          <p class="feature-desc">Stop drowning in paperwork. Automate what slows you down.</p>
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/features/save-time_v2-min.png" alt="Save time" class="img-fluid rounded d-block mx-auto" style="max-width:420px;" />
+        </div>
+        <div class="tab-pane fade" id="mob-inventory">
+          <h5 style="font-family:'Oswald',sans-serif;">Track inventory</h5>
+          <p class="feature-desc">Know what's on the truck and what's not. No surprises, no guesswork.</p>
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/features/track-inventory_v2-min.png" alt="Track inventory" class="img-fluid rounded d-block mx-auto" style="max-width:420px;" />
+        </div>
+        <div class="tab-pane fade" id="mob-cashflow">
+          <h5 style="font-family:'Oswald',sans-serif;">Improve cash flow</h5>
+          <p class="feature-desc">Invoice faster. Get paid quicker. See your margins in real time.</p>
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/features/improve-cashflow_v2-min.png" alt="Improve cash flow" class="img-fluid rounded d-block mx-auto" style="max-width:420px;" />
+        </div>
+        <div class="tab-pane fade" id="mob-people">
+          <h5 style="font-family:'Oswald',sans-serif;">Manage your people</h5>
+          <p class="feature-desc">Your crew, your contractors, your customers — all in one place.</p>
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/features/manage-your-people_v2-min.png" alt="Manage your people" class="img-fluid rounded d-block mx-auto" style="max-width:420px;" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INDUSTRIES
+════════════════════════════════════════════════════════════ -->
+<section id="industries">
+  <div class="container-xl">
+    <p class="eyebrow">Industries</p>
+    <h2 class="mb-4">Built for the trades, by the trades</h2>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-6 g-3">
+      <div class="col">
+        <div class="industry-card highlight">
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/2025/SP-Icon_Electrical_ResBlue.svg" width="32" height="32" alt="Electrical" loading="lazy" />
+          <p>Electrical ⚡</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="industry-card">
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/2025/SP-Icon_Plumbing_ResBlue.svg" width="32" height="32" alt="Plumbing" loading="lazy" />
+          <p>Plumbing</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="industry-card">
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/2025/SP-Icon_HVAC_ResBlue.svg" width="32" height="32" alt="HVAC" loading="lazy" />
+          <p>HVAC</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="industry-card">
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/2025/SP-Icon_Security_ResBlue.svg" width="32" height="32" alt="Security" loading="lazy" />
+          <p>Security</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="industry-card">
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/2025/SP-Icon_FireProtection_ResBlue.svg" width="32" height="32" alt="Fire Protection" loading="lazy" />
+          <p>Fire Protection</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="industry-card">
+          <img src="https://www.simprogroup.com/user/themes/simpro/images/icons/2025/SP-Icon_Other_ResBlue.svg" width="32" height="32" alt="Other" loading="lazy" />
+          <p>...and more</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIDEO
+════════════════════════════════════════════════════════════ -->
+<section id="video-section">
+  <div class="container-xl">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-9">
+        <div class="ratio ratio-16x9">
+          <iframe
+            title="Simpro — See how it works"
+            src="https://player.vimeo.com/video/1014965978?h=77a07a6a32&byline=0"
+            width="640" height="360"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INTEGRATIONS
+════════════════════════════════════════════════════════════ -->
+<section id="integrations">
+  <div class="container-xl">
+    <div class="d-flex flex-column flex-xl-row align-items-center justify-content-xl-between gap-3">
+      <p class="integrations-label mb-0">Integrations</p>
+      <div class="d-flex flex-wrap justify-content-center align-items-center gap-4">
+        <img src="https://www.simprogroup.com/user/themes/simpro/images/campaigns/integrators/xero-white.svg" alt="Xero" class="img-fluid" style="height:20px;" loading="lazy" />
+        <img src="https://www.simprogroup.com/user/themes/simpro/images/campaigns/integrators/quickbooks-white.svg" alt="QuickBooks" class="img-fluid" style="height:30px;" loading="lazy" />
+        <img src="https://www.simprogroup.com/user/themes/simpro/images/campaigns/integrators/sovos-white.svg" alt="Sovos" class="img-fluid" style="height:20px;" loading="lazy" />
+        <img src="https://www.simprogroup.com/user/themes/simpro/images/campaigns/integrators/stripe-logo_sm.png" alt="Stripe" class="img-fluid" style="height:32px;" loading="lazy" />
+        <img src="https://www.simprogroup.com/user/themes/simpro/images/campaigns/integrators/podium-logo_sm.png" alt="Podium" class="img-fluid" style="height:24px;" loading="lazy" />
+      </div>
+      <p class="integrations-more mb-0">...and more</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════════════════ -->
+<section id="cta">
+  <div class="container-xl">
+    <h2>Discover the AI-first platform<br class="d-none d-sm-block">built to work the way you do.</h2>
+    <a href="#signup-form" class="btn-primary-cta">Book Your Demo &rarr;</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container-xl">
+    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-sm-between gap-3">
+      <img src="https://www.simprogroup.com/user/themes/simpro/images/simpro-wordmark-white.svg" alt="Simpro" width="140" height="29" loading="lazy" />
+      <a href="https://www.simprogroup.com/legal/personal-data-protection-policy" target="_blank" rel="noopener" class="footer-link">Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ================================================================
+//  GOOGLE SHEETS SETUP INSTRUCTIONS
+// ================================================================
+//
+//  STEP 1 — Create a new Google Sheet (sheets.google.com).
+//            Name the first tab "Leads" or anything you like.
+//
+//  STEP 2 — In the Sheet, click Extensions → Apps Script.
+//
+//  STEP 3 — Delete the placeholder code and paste this:
+//
+//  ------------------------------------------------------------------
+//  function doPost(e) {
+//    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+//    var data  = JSON.parse(e.postData.contents);
+//    if (sheet.getLastRow() === 0) {
+//      sheet.appendRow(["Timestamp","Name","Email","Phone","Business Name","Employees"]);
+//    }
+//    sheet.appendRow([
+//      new Date(),
+//      data.name,
+//      data.email,
+//      data.phone,
+//      data.businessName,
+//      data.employees
+//    ]);
+//    return ContentService
+//      .createTextOutput(JSON.stringify({ status: "success" }))
+//      .setMimeType(ContentService.MimeType.JSON);
+//  }
+//  ------------------------------------------------------------------
+//
+//  STEP 4 — Click Deploy → New Deployment.
+//            - Type: Web App
+//            - Execute as: Me
+//            - Who has access: Anyone
+//            Click Deploy and copy the Web App URL.
+//
+//  STEP 5 — Paste that URL as the value of APPS_SCRIPT_URL below.
+//
+// ================================================================
+
+  const APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+  // ── Form submission ──────────────────────────────────────────────
+  document.getElementById('lead-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form      = e.target;
+    const submitBtn = document.getElementById('submit-btn');
+    const errorDiv  = document.getElementById('form-error');
+
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const payload = {
+      name:         document.getElementById('fullName').value.trim(),
+      email:        document.getElementById('email').value.trim(),
+      phone:        document.getElementById('phone').value.trim(),
+      businessName: document.getElementById('businessName').value.trim(),
+      employees:    document.getElementById('employees').value
+    };
+
+    submitBtn.textContent = 'Submitting…';
+    submitBtn.disabled    = true;
+    errorDiv.style.display = 'none';
+
+    try {
+      // no-cors mode is required for Apps Script Web Apps.
+      // We can't read the response, so we assume success after the request completes.
+      await fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+      });
+
+      document.getElementById('form-container').style.display = 'none';
+      document.getElementById('form-success').style.display   = 'block';
+
+    } catch (err) {
+      console.error('Submission error:', err);
+      errorDiv.style.display = 'block';
+      submitBtn.textContent  = 'Book Your Demo →';
+      submitBtn.disabled     = false;
+    }
+  });
+
+  // ── Desktop feature tabs ─────────────────────────────────────────
+  document.querySelectorAll('.feature-tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      // Deactivate all
+      document.querySelectorAll('.feature-tab-btn').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      document.querySelectorAll('.feature-tab-pane').forEach(function (p) {
+        p.style.display = 'none';
+      });
+      // Activate clicked
+      btn.classList.add('active');
+      var target = document.getElementById(btn.getAttribute('data-target'));
+      if (target) target.style.display = 'block';
+    });
+  });
+
+  // ── Smooth scroll for CTA links ──────────────────────────────────
+  document.querySelectorAll('a[href="#signup-form"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var target = document.getElementById('signup-form');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
