@@ -460,7 +460,7 @@
         <!-- Mobile partner logo -->
         <div class="d-sm-none mb-4">
           <img
-            src="https://raw.githubusercontent.com/addisonminchamsimpro/masterelectriciansau/main/assets/images/mealogo.png"
+            src="Yhttps://raw.githubusercontent.com/addisonminchamsimpro/masterelectriciansau/main/assets/images/mealogo.png"
             alt="Master Electricians Australia"
             style="max-height:44px; width:auto;"
             onerror="this.style.display='none';"
@@ -876,10 +876,13 @@
       // no-cors mode is required for Apps Script Web Apps.
       // We can't read the response, so we assume success after the request completes.
       await fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        mode:    'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
+        method: 'POST',
+        mode:   'no-cors',
+        // Note: Content-Type header is intentionally omitted.
+        // 'no-cors' mode blocks 'application/json', causing the body to arrive
+        // malformed. Omitting it defaults to 'text/plain', which Apps Script
+        // receives correctly via e.postData.contents.
+        body:   JSON.stringify(payload)
       });
 
       document.getElementById('form-container').style.display = 'none';
