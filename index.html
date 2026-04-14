@@ -51,6 +51,9 @@
     .partner-logo {
       max-height: 36px;
       width: auto;
+      background: #ffffff;
+      padding: 5px 10px;
+      border-radius: 6px;
     }
 
     .partner-name-text {
@@ -431,7 +434,7 @@
         -->
         <div class="navbar-partner-divider d-none d-sm-flex">
           <img
-            src="https://raw.githubusercontent.com/addisonminchamsimpro/masterelectriciansau/main/assets/images/mealogo.png"
+            src="https://raw.githubusercontent.com/addisonminchamsimpro/masterelectriciansau/main/assets/images/MEA-Logo-RBG-transparent.png"
             alt="Master Electricians Australia"
             class="partner-logo"
             id="partner-logo-img"
@@ -460,7 +463,7 @@
         <!-- Mobile partner logo -->
         <div class="d-sm-none mb-4">
           <img
-            src="Yhttps://raw.githubusercontent.com/addisonminchamsimpro/masterelectriciansau/main/assets/images/mealogo.png"
+            src="https://raw.githubusercontent.com/addisonminchamsimpro/masterelectriciansau/main/assets/images/MEA-Logo-RBG-transparent.png"
             alt="Master Electricians Australia"
             style="max-height:44px; width:auto;"
             onerror="this.style.display='none';"
@@ -875,15 +878,11 @@
     try {
       // no-cors mode is required for Apps Script Web Apps.
       // We can't read the response, so we assume success after the request completes.
-      await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode:   'no-cors',
-        // Note: Content-Type header is intentionally omitted.
-        // 'no-cors' mode blocks 'application/json', causing the body to arrive
-        // malformed. Omitting it defaults to 'text/plain', which Apps Script
-        // receives correctly via e.postData.contents.
-        body:   JSON.stringify(payload)
-      });
+      // GET request with URL params — most reliable approach for Apps Script + no-cors.
+      // POST with a body is blocked/mangled by CORS; GET params always go through cleanly.
+      const url = new URL(APPS_SCRIPT_URL);
+      Object.entries(payload).forEach(([k, v]) => url.searchParams.set(k, v));
+      await fetch(url.toString(), { method: 'GET', mode: 'no-cors' });
 
       document.getElementById('form-container').style.display = 'none';
       document.getElementById('form-success').style.display   = 'block';
